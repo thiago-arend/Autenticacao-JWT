@@ -1,7 +1,7 @@
 import express, { json, Request, Response } from 'express';
 import 'express-async-errors';
-import dotenv from "dotenv";
-import cors from "cors";
+import dotenv from 'dotenv';
+import cors from 'cors';
 import httpStatus from 'http-status';
 import handleApplicationErrors from './middlewares/error-middleware';
 

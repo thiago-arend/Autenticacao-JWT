@@ -1,5 +1,5 @@
-import { NextFunction, Request, Response } from "express";
-import httpStatus from "http-status";
+import { NextFunction, Request, Response } from 'express';
+import httpStatus from 'http-status';
 
 export type ApplicationError = {
   name: string;
@@ -7,16 +7,15 @@ export type ApplicationError = {
 };
 
 const errors = {
-  ["NotFoundError"]: httpStatus.NOT_FOUND,
+  ['NotFoundError']: httpStatus.NOT_FOUND,
 };
 
 export default function handleApplicationErrors(
-    err: ApplicationError | Error, 
-    _req: Request, 
-    res: Response, 
-    _next: NextFunction, // eslint-disable-line @typescript-eslint/no-unused-vars
+  err: ApplicationError | Error,
+  _req: Request,
+  res: Response,
+  _next: NextFunction, // eslint-disable-line @typescript-eslint/no-unused-vars
 ) {
-
   if (errors[err.name]) {
     return res.status(errors[err.name]).send({
       message: err.message,
@@ -24,7 +23,7 @@ export default function handleApplicationErrors(
   }
 
   res.status(httpStatus.INTERNAL_SERVER_ERROR).send({
-    error: "InternalServerError",
-    message: "Internal Server Error",
+    error: 'InternalServerError',
+    message: 'Internal Server Error',
   });
 }
