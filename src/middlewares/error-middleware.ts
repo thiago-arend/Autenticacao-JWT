@@ -18,12 +18,11 @@ export default function handleApplicationErrors(
 ) {
   if (errors[err.name]) {
     return res.status(errors[err.name]).send({
-      message: err.message,
+      mensagem: err.message,
     });
   }
 
   res.status(httpStatus.INTERNAL_SERVER_ERROR).send({
-    error: 'InternalServerError',
-    message: 'Internal Server Error',
+    mensagem: 'Erro interno',
   });
 }
