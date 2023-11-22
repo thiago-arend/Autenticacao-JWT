@@ -23,6 +23,6 @@ export default function handleApplicationErrors(
   }
 
   res.status(httpStatus.INTERNAL_SERVER_ERROR).send({
-    mensagem: 'Erro interno',
+    mensagem: 'Erro interno do servidor',
   });
 }
