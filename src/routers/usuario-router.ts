@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import { usuarioController } from '@/controllers/usuario-controller';
-import { validateSchemaMiddleware } from '@/middlewares/schema-validation-middleware';
-import { usuarioSchema } from '@/schemas/usuario-schema';
-import { authenticationMiddleware } from '@/middlewares/auth-middleware';
+import { usuarioController } from '../controllers/usuario-controller';
+import { validateSchemaMiddleware } from '../middlewares/schema-validation-middleware';
+import { usuarioSchema } from '../schemas/usuario-schema';
+import { authenticationMiddleware } from '../middlewares/auth-middleware';
 
 const usuarioRouter = Router();
 

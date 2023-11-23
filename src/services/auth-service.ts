@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { usuarioRepository } from '@/repositories/usuario-repository';
-import { usuarioOuSenhaInvalidos } from '@/errors';
-import { authRepository } from '@/repositories/auth-repository';
-import { LoginInput } from '@/protocols';
+import { usuarioRepository } from '../repositories/usuario-repository';
+import { usuarioOuSenhaInvalidos } from '../errors';
+import { authRepository } from '../repositories/auth-repository';
+import { LoginInput } from '../protocols';
 
 export async function login(loginInput: LoginInput) {
   const usuario = await usuarioRepository.getByEmail(loginInput.email);

@@ -5,7 +5,7 @@ import cors from 'cors';
 import httpStatus from 'http-status';
 import usuarioRouter from './routers/usuario-router';
 import authRouter from './routers/auth-router';
-import handleApplicationErrors from '@/middlewares/error-middleware';
+import handleApplicationErrors from './middlewares/error-middleware';
 
 dotenv.config();
 

@@ -1,5 +1,5 @@
-import prisma from '@/config/database';
-import { UsuarioInput } from '@/protocols';
+import prisma from '../config/database';
+import { UsuarioInput } from '../protocols';
 
 async function create(usuarioInput: UsuarioInput) {
   const { nome, email, senha } = usuarioInput;

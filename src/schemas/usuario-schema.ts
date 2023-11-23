@@ -1,5 +1,5 @@
 import joi from 'joi';
-import { UsuarioInput } from '@/protocols';
+import { UsuarioInput } from '../protocols';
 
 export const usuarioSchema = joi.object<UsuarioInput>({
   nome: joi.string().required(),

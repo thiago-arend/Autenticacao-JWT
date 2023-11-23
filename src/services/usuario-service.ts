@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
+import { UsuarioInput } from '../protocols';
+import { usuarioRepository } from '../repositories/usuario-repository';
+import { emailExistente, recursoInexistente } from '../errors';
+import { authRepository } from '../repositories/auth-repository';
 import { authService } from './auth-service';
-import { UsuarioInput } from '@/protocols';
-import { usuarioRepository } from '@/repositories/usuario-repository';
-import { emailExistente, recursoInexistente } from '@/errors';
-import { authRepository } from '@/repositories/auth-repository';
 
 export async function create(usuarioInput: UsuarioInput) {
   const usuarioExiste = await usuarioRepository.getByEmail(usuarioInput.email);

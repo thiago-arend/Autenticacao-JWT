@@ -1,4 +1,4 @@
-import { ApplicationError } from '@/middlewares/error-middleware';
+import { ApplicationError } from '../middlewares/error-middleware';
 
 export function usuarioOuSenhaInvalidos(): ApplicationError {
   return {

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { UsuarioInput } from '@/protocols';
-import { usuarioService } from '@/services/usuario-service';
+import { UsuarioInput } from '../protocols';
+import { usuarioService } from '../services/usuario-service';
 
 export async function create(req: Request, res: Response) {
   const usuarioInput = req.body as UsuarioInput;

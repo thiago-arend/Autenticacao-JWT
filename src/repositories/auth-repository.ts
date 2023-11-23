@@ -1,5 +1,5 @@
-import prisma from '@/config/database';
-import { AutenticacaoInput } from '@/protocols';
+import prisma from '../config/database';
+import { AutenticacaoInput } from '../protocols';
 
 function create(autenticacao: AutenticacaoInput) {
   return prisma.autenticacao.create({

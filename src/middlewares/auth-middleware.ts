@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import jwt, { DecodeOptions, VerifyErrors } from 'jsonwebtoken';
-import { tokenInvalido, tokenExpiradoError } from '@/errors';
+import { tokenInvalido, tokenExpiradoError } from '../errors';
 
 dotenv.config();
 
