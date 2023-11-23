@@ -1,6 +1,8 @@
 import { faker } from '@faker-js/faker';
 import { Usuario } from '@prisma/client';
-import { UsuarioInput } from '@/protocols';
+import bcrypt from 'bcrypt';
+import { UsuarioInput } from '../../src/protocols';
+import prisma from '../../src/config/database';
 
 export function mockUsuarioAleatorio() {
   return {
@@ -28,4 +30,24 @@ export function mockUsuarioDoBanco(usuario: UsuarioInput): Usuario {
     data_atualizacao: data,
     id: faker.string.uuid(),
   };
+}
+
+export async function insereUsuarioBanco(usuarioInput: UsuarioInput) {
+  const { nome, email, senha } = usuarioInput;
+
+  return await prisma.$transaction(async () => {
+    const usuario = await prisma.usuario.create({
+      data: { nome, email, senha: bcrypt.hashSync(senha, 10) },
+    });
+
+    const telefonesUsuario = usuarioInput.telefones.map((t) => {
+      return { ...t, id_usuario: usuario.id };
+    });
+
+    await prisma.telefone.createMany({
+      data: telefonesUsuario,
+    });
+
+    return usuario;
+  });
 }
