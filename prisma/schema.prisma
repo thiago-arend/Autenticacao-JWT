@@ -15,6 +15,7 @@ model Usuario {
   nome String
   email String @unique
   senha String
+  ultimo_login DateTime?
   telefones Telefone[]
   autenticacoes Autenticacao[]
   data_criacao DateTime? @default(now())
@@ -25,6 +26,7 @@ model Autenticacao {
   id   String @id @default(uuid())
   token String
   id_usuario String
+  ultimo_login DateTime?
   data_criacao DateTime? @default(now())
   data_atualizacao DateTime  @updatedAt
   usuario Usuario @relation(fields: [id_usuario], references: [id])

@@ -8,7 +8,8 @@ export type ApplicationError = {
 
 const errors = {
   ['DadosEntradaInvalidosError']: httpStatus.UNPROCESSABLE_ENTITY,
-  ['EmailExistenteError']: httpStatus.BAD_REQUEST,
+  ['EmailExistenteError']: httpStatus.CONFLICT,
+  ['UsuarioOuSenhaInvalidosError']: httpStatus.UNAUTHORIZED,
 };
 
 export default function handleApplicationErrors(
