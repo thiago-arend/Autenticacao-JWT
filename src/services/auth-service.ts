@@ -12,7 +12,8 @@ export async function login(loginInput: LoginInput) {
   const token = generateToken(usuario.id); // gera token JWT
   const ultimaAutenticacao = await authRepository.getLastAutentication(usuario.id); // busca última autenticação; caso não encontre, devolve null
   const autenticacaoAtual = await authRepository.create({
-    ultimo_login: ultimaAutenticacao?.data_criacao,
+    // usa como ultimo_login a ultima autenticação; caso essa seja null,
+    ultimo_login: ultimaAutenticacao?.data_criacao || usuario.data_criacao, // usa a data de criação do usuário
     id_usuario: usuario.id,
     token,
   });
@@ -22,10 +23,11 @@ export async function login(loginInput: LoginInput) {
   return autenticacaoAtual;
 }
 
-function generateToken(id: string): string {
+export function generateToken(id: string): string {
   return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: 1800 }); // expira em 30 min (1800 seg)
 }
 
 export const authService = {
   login,
+  generateToken,
 };

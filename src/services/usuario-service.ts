@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt';
+import { authService } from './auth-service';
 import { UsuarioInput } from '@/protocols';
 import { usuarioRepository } from '@/repositories/usuario-repository';
 import { emailExistente, recursoInexistente } from '@/errors';
@@ -20,8 +21,8 @@ export async function create(usuarioInput: UsuarioInput) {
     id,
     data_criacao,
     data_atualizacao,
-    ultimo_login: null,
-    token: null,
+    ultimo_login: usuario.data_criacao, // usa a data de criação do usuário como data do último login
+    token: authService.generateToken(usuario.id), // gera um token para compor a resposta
   };
 }
 
@@ -34,15 +35,15 @@ export async function getAllInformation(id: string) {
     return { id: t.id, numero: t.numero, ddd: t.ddd };
   });
 
-  const { ultimo_login } = await authRepository.getLastAutentication(usuario.id);
+  const { data_criacao } = await authRepository.getLastAutentication(usuario.id);
 
   return {
     id: usuario.id,
     nome: usuario.nome,
     email: usuario.email,
-    telefones: lstTelefonesFormatada,
     token,
-    ultimo_login,
+    ultimo_login: data_criacao,
+    telefones: lstTelefonesFormatada,
   };
 }
 
