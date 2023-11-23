@@ -1,8 +1,15 @@
 import supertest from 'supertest';
 import httpStatus from 'http-status';
+import { faker } from '@faker-js/faker';
 import app from '../../src/app';
 import { cleanDb } from '../utils/index';
-import { insereUsuarioBanco, mockUsuarioAleatorio } from '../../tests/factories/usuario-factory';
+import {
+  insereAutenticacaoBanco,
+  insereUsuarioBanco,
+  mockAutenticacao,
+  mockToken,
+  mockUsuarioAleatorio,
+} from '../../tests/factories/usuario-factory';
 import prisma from '../../src/config/database';
 
 beforeEach(async () => {
@@ -86,6 +93,75 @@ describe('Testes de integração da aplicação', () => {
         ultimo_login: usuarioDoBanco.data_criacao.toISOString(),
         token: expect.any(String),
       });
+    });
+  });
+
+  describe('GET /usuario/:id', () => {
+    it('deve retornar 404 caso o usuario buscado não exista', async () => {
+      const usuarioInput = mockUsuarioAleatorio();
+      const { id } = await insereUsuarioBanco(usuarioInput);
+
+      const tokenValido = mockToken(id, false); // gera token que NÃO EXPIROU
+      const autenticacaoInput = mockAutenticacao(id, tokenValido);
+      await insereAutenticacaoBanco(autenticacaoInput);
+
+      await cleanDb(); // apaga todos os registro do banco, inclusive o usuario recém criado
+
+      const { status } = await api.get(`/usuario/${id}`).set('Authorization', `Bearer ${tokenValido}`);
+
+      expect(status).toBe(httpStatus.NOT_FOUND);
+    });
+
+    it("deve retornar 401 e a mensagem 'Não autorizado' em caso de token inválido", async () => {
+      const usuarioInput = mockUsuarioAleatorio();
+      const { id } = await insereUsuarioBanco(usuarioInput);
+
+      const token = faker.lorem.word();
+
+      const { status } = await api.get(`/usuario/${id}`).set('Authorization', `Bearer ${token}`);
+
+      expect(status).toBe(httpStatus.UNAUTHORIZED);
+    });
+
+    it("deve retornar 401 e a mensagem 'Sessão inválida' em caso de usar um token expirado", async () => {
+      const usuarioInput = mockUsuarioAleatorio();
+      const { id } = await insereUsuarioBanco(usuarioInput);
+
+      const tokenInvalido = mockToken(id, true); // gera token que EXPIROU
+      const autenticacaoInput = mockAutenticacao(id, tokenInvalido);
+      await insereAutenticacaoBanco(autenticacaoInput);
+
+      const { status } = await api.get(`/usuario/${id}`).set('Authorization', `Bearer ${tokenInvalido}`);
+
+      expect(status).toBe(httpStatus.UNAUTHORIZED);
+    });
+
+    it('deve retornar 200 e um objeto se conseguiu buscar o usuário com sucesso', async () => {
+      const usuarioInput = mockUsuarioAleatorio();
+      const { id } = await insereUsuarioBanco(usuarioInput);
+
+      const tokenValido = mockToken(id, false); // gera token que NÃO EXPIROU
+      const autenticacaoInput = mockAutenticacao(id, tokenValido);
+      await insereAutenticacaoBanco(autenticacaoInput);
+
+      const { status, body } = await api.get(`/usuario/${id}`).set('Authorization', `Bearer ${tokenValido}`);
+
+      expect(status).toBe(httpStatus.OK);
+      expect(body).toEqual(
+        expect.objectContaining({
+          id: expect.any(String),
+          nome: expect.any(String),
+          email: expect.any(String),
+          token: expect.any(String),
+          ultimo_login: expect.any(String),
+          telefones: expect.arrayContaining([
+            {
+              numero: expect.any(String),
+              ddd: expect.any(String),
+            },
+          ]),
+        }),
+      );
     });
   });
 });

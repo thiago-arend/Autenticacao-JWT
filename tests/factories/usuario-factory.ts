@@ -1,7 +1,8 @@
 import { faker } from '@faker-js/faker';
 import { Usuario } from '@prisma/client';
 import bcrypt from 'bcrypt';
-import { UsuarioInput } from '../../src/protocols';
+import jwt from 'jsonwebtoken';
+import { AutenticacaoInput, UsuarioInput } from '../../src/protocols';
 import prisma from '../../src/config/database';
 
 export function mockUsuarioAleatorio() {
@@ -49,5 +50,23 @@ export async function insereUsuarioBanco(usuarioInput: UsuarioInput) {
     });
 
     return usuario;
+  });
+}
+
+export function mockToken(id_usuario: string, expired: boolean): string {
+  return jwt.sign({ id: id_usuario }, process.env.JWT_SECRET, { expiresIn: expired ? 0 : 1800 }); // gera token expirado ou com tempo de 30 min
+}
+
+export function mockAutenticacao(id_usuario: string, token: string): AutenticacaoInput {
+  return {
+    id_usuario,
+    token,
+    ultimo_login: faker.date.recent(),
+  };
+}
+
+export async function insereAutenticacaoBanco(autenticacao: AutenticacaoInput) {
+  return prisma.autenticacao.create({
+    data: autenticacao,
   });
 }
