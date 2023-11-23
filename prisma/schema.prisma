@@ -13,6 +13,7 @@ datasource db {
 model Usuario {
   id   String @id @default(uuid())
   nome String
+  email String @unique
   senha String
   telefones Telefone[]
   autenticacoes Autenticacao[]
@@ -23,7 +24,7 @@ model Usuario {
 model Autenticacao {
   id   String @id @default(uuid())
   token String
-  id_usuario String @unique
+  id_usuario String
   data_criacao DateTime? @default(now())
   data_atualizacao DateTime  @updatedAt
   usuario Usuario @relation(fields: [id_usuario], references: [id])
@@ -33,6 +34,6 @@ model Telefone {
   id   String @id @default(uuid())
   numero String
   ddd String
-  id_usuario String @unique
+  id_usuario String
   usuario Usuario @relation(fields: [id_usuario], references: [id])
 }

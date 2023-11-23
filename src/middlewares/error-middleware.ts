@@ -7,7 +7,8 @@ export type ApplicationError = {
 };
 
 const errors = {
-  ['NotFoundError']: httpStatus.NOT_FOUND,
+  ['DadosEntradaInvalidosError']: httpStatus.UNPROCESSABLE_ENTITY,
+  ['EmailExistenteError']: httpStatus.BAD_REQUEST,
 };
 
 export default function handleApplicationErrors(

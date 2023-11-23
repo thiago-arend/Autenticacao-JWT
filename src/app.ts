@@ -3,7 +3,8 @@ import 'express-async-errors';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import httpStatus from 'http-status';
-import handleApplicationErrors from './middlewares/error-middleware';
+import usuarioRouter from './routers/usuario-router';
+import handleApplicationErrors from '@/middlewares/error-middleware';
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ app.use(json());
 app.get('/health', (req: Request, res: Response) => {
   return res.status(httpStatus.OK).send("I'm ok!");
 });
-
+app.use(usuarioRouter);
 app.use(handleApplicationErrors);
 
 export default app;
