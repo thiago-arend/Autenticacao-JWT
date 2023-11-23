@@ -10,6 +10,15 @@ export async function create(req: Request, res: Response) {
   res.status(httpStatus.CREATED).send(resposta);
 }
 
+export async function getAllInformation(req: Request, res: Response) {
+  const { id } = req.params;
+
+  const resposta = await usuarioService.getAllInformation(id);
+
+  res.status(httpStatus.OK).send(resposta);
+}
+
 export const usuarioController = {
   create,
+  getAllInformation,
 };

@@ -27,7 +27,15 @@ async function getByEmail(email: string) {
   });
 }
 
+async function getAllInformation(id: string) {
+  return prisma.usuario.findUnique({
+    where: { id },
+    include: { telefones: true, autenticacoes: true },
+  });
+}
+
 export const usuarioRepository = {
   create,
   getByEmail,
+  getAllInformation,
 };

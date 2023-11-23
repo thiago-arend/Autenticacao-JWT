@@ -2,6 +2,8 @@ import bcrypt from 'bcrypt';
 import { UsuarioInput } from '@/protocols';
 import { usuarioRepository } from '@/repositories/usuario-repository';
 import { emailExistente } from '@/errors';
+import { authRepository } from '@/repositories/auth-repository';
+import { recursoInexistente } from '@/errors/recurso-inexistente-error';
 
 export async function create(usuarioInput: UsuarioInput) {
   const usuarioExiste = await usuarioRepository.getByEmail(usuarioInput.email);
@@ -24,6 +26,28 @@ export async function create(usuarioInput: UsuarioInput) {
   };
 }
 
+export async function getAllInformation(id: string) {
+  const usuario = await usuarioRepository.getAllInformation(id);
+  if (!usuario) throw recursoInexistente();
+  const { token } = usuario.autenticacoes[0];
+
+  const lstTelefonesFormatada = usuario.telefones.map((t) => {
+    return { id: t.id, numero: t.numero, ddd: t.ddd };
+  });
+
+  const { ultimo_login } = await authRepository.getLastAutentication(usuario.id);
+
+  return {
+    id: usuario.id,
+    nome: usuario.nome,
+    email: usuario.email,
+    telefones: lstTelefonesFormatada,
+    token,
+    ultimo_login,
+  };
+}
+
 export const usuarioService = {
   create,
+  getAllInformation,
 };

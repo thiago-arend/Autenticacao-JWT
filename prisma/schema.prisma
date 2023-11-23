@@ -11,31 +11,30 @@ datasource db {
 }
 
 model Usuario {
-  id   String @id @default(uuid())
-  nome String
-  email String @unique
-  senha String
-  ultimo_login DateTime?
-  telefones Telefone[]
-  autenticacoes Autenticacao[]
-  data_criacao DateTime? @default(now())
-  data_atualizacao DateTime  @updatedAt
+  id               String         @id @default(uuid())
+  nome             String
+  email            String         @unique
+  senha            String
+  data_criacao     DateTime?      @default(now())
+  data_atualizacao DateTime       @updatedAt
+  telefones        Telefone[]
+  autenticacoes    Autenticacao[]
 }
 
 model Autenticacao {
-  id   String @id @default(uuid())
-  token String
-  id_usuario String
-  ultimo_login DateTime?
-  data_criacao DateTime? @default(now())
+  id               String    @id @default(uuid())
+  token            String
+  id_usuario       String
+  ultimo_login     DateTime?
+  data_criacao     DateTime? @default(now())
   data_atualizacao DateTime  @updatedAt
-  usuario Usuario @relation(fields: [id_usuario], references: [id])
+  usuario          Usuario   @relation(fields: [id_usuario], references: [id])
 }
 
 model Telefone {
-  id   String @id @default(uuid())
-  numero String
-  ddd String
+  id         String  @id @default(uuid())
+  numero     String
+  ddd        String
   id_usuario String
-  usuario Usuario @relation(fields: [id_usuario], references: [id])
+  usuario    Usuario @relation(fields: [id_usuario], references: [id])
 }

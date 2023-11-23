@@ -10,6 +10,9 @@ const errors = {
   ['DadosEntradaInvalidosError']: httpStatus.UNPROCESSABLE_ENTITY,
   ['EmailExistenteError']: httpStatus.CONFLICT,
   ['UsuarioOuSenhaInvalidosError']: httpStatus.UNAUTHORIZED,
+  ['TokenInvalidoError']: httpStatus.UNAUTHORIZED,
+  ['TokenExpiradoError']: httpStatus.UNAUTHORIZED,
+  ['RecursoInexistenteError']: httpStatus.NOT_FOUND,
 };
 
 export default function handleApplicationErrors(
