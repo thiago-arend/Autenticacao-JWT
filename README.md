@@ -179,9 +179,9 @@ Todas as rotas podem ser testas usando um API Client da sua preferência, atrav�
 }
 ```
 #
-* Rules
+* Regras
   * Caso o id fornecido não exista, será retornado <font color="red">404 (Not Found)</font>
   * Caso o token fornecido seja inválido, será retornado <font color="red">401 (Unauthorized)</font>
-  * Caso o token fornecido expire (mais de 30 minutos), será retornado <font color="red">401 (Unauthorized)</font>
+  * Caso o token fornecido tenha expirado (mais de 30 minutos), será retornado <font color="red">401 (Unauthorized)</font>
 
 </details>
