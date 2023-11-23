@@ -116,7 +116,7 @@ describe('Testes de integração da aplicação', () => {
       const usuarioInput = mockUsuarioAleatorio();
       const { id } = await insereUsuarioBanco(usuarioInput);
 
-      const token = faker.lorem.word();
+      const token = faker.lorem.word(); // token aleatório
 
       const { status } = await api.get(`/usuario/${id}`).set('Authorization', `Bearer ${token}`);
 
