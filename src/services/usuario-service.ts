@@ -32,7 +32,7 @@ export async function getAllInformation(id: string) {
   const { token } = usuario.autenticacoes[0];
 
   const lstTelefonesFormatada = usuario.telefones.map((t) => {
-    return { id: t.id, numero: t.numero, ddd: t.ddd };
+    return { numero: t.numero, ddd: t.ddd };
   });
 
   const { data_criacao } = await authRepository.getLastAutentication(usuario.id);

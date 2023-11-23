@@ -81,3 +81,107 @@ Execute o seguinte script dentro da mesma pasta onde o arquivo package.json est�
 ```bash
   npm run test
 ```
+
+## Lista de rotas
+
+Todas as rotas podem ser testas usando um API Client da sua preferência, através do link de deploy https://autenticacao-restful-api.onrender.com
+
+<details>
+<summary> 
+<b><font color="#D9730D">POST</font></b><font> /usuario 
+</summary>
+<br>
+
+* Cria um usuário
+#
+* Input:
+
+```typescript
+{ 
+  nome: string,
+  email: string,
+  senha: string,
+  telefones: [ { numero: string, ddd: string }, ... ]
+}
+```
+#
+* Output: 
+
+```typescript
+{
+	id: string, // uuid
+	data_criacao: Date,
+	data_atualizacao: Date,
+	ultimo_login: Date,
+	token: string // token JWT
+}
+```
+#
+* Regras
+  * Todos os campos são obrigatórios; se um deles estiver faltando ou não estiver no formato correto será retornado <font color="red">422 (Unprocessable Entity)</font>
+  * Em caso de e-mail já cadastrado, será retornado <font color="red">409 (Conflict)</font>
+
+</details>
+
+<details>
+<summary> 
+<b><font color="#D9730D">POST</font></b><font> /login 
+</summary>
+<br>
+
+* Realiza o login do usuário
+#
+* Input:
+
+```typescript
+{ 
+	email: string,
+	senha: string
+}
+```
+#
+* Output: 
+
+```typescript
+{
+	id: string, // uuid
+	data_criacao: Date,
+	data_atualizacao: Date,
+	ultimo_login: Date,
+	token: string // token JWT
+}
+```
+#
+* Regras
+  * Todos os campos são obrigatórios; se um deles estiver faltando ou não estiver no formato correto será retornado <font color="red">422 (Unprocessable Entity)</font>
+  * Em caso de e-mail e/ou senha incorretos, sera retornado <font color="red">401 (Unauthorized)</font>
+
+</details>
+
+<details>
+<summary> 
+<b><font color="#448375">GET</font></b><font> /usuario/:id 
+</summary>
+<br>
+
+* Busca os dados de um usuário com uma sessão ativa
+#
+* Output: objeto com os dados daquele usuário
+
+```typescript
+{
+	id: string, // uuid
+	nome: string,
+	email: string,
+	token: string, // token JWT
+	ultimo_login: Date,
+	telefones: [ { numero: string, ddd: string }, ... ]
+}
+```
+#
+* Rules
+  * Caso o id fornecido não exista, será retornado <font color="red">404 (Not Found)</font>
+  * Caso o token fornecido seja inválido, será retornado <font color="red">401 (Unauthorized)</font>
+  * Caso o token fornecido expire (mais de 30 minutos), será retornado <font color="red">401 (Unauthorized)</font>
+
+</details>
