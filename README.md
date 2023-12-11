@@ -12,6 +12,7 @@ Essa API permite operações de cadastro (sign up), autenticação (sign in) e r
 * Node.js (20.8.0)
 * TypeScript
 * Express.js
+* JWT
 * Prisma ORM
 * PostgreSQL
 * Joi
